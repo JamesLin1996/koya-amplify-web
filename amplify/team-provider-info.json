@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-koyaamplifyweb-dev-22133-authRole",
+      "UnauthRoleArn": "arn:aws:iam::026647244975:role/amplify-koyaamplifyweb-dev-22133-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::026647244975:role/amplify-koyaamplifyweb-dev-22133-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-koyaamplifyweb-dev-22133-deployment",
+      "UnauthRoleName": "amplify-koyaamplifyweb-dev-22133-unauthRole",
+      "StackName": "amplify-koyaamplifyweb-dev-22133",
+      "StackId": "arn:aws:cloudformation:us-west-2:026647244975:stack/amplify-koyaamplifyweb-dev-22133/dd6bc310-44f7-11eb-af10-0ad31c5039f3",
+      "AmplifyAppId": "d330r1nw722oex"
+    }
+  }
+}

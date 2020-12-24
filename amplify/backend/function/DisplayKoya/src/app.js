@@ -23,8 +23,10 @@ app.use(function(req, res, next) {
 });
 
 // KOYA database
+console.log('pre DB');
 const AWS = require('aws-sdk');
 const ddb = new AWS.DynamoDB.DocumentClient({region: 'us-west-2'});
+console.log('post DB');
 
 /**********************
  * Example get method *

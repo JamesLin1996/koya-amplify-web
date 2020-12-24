@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/koya/{id}",
+            "lambdaFunction": "DisplayKoya",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/koya/*"
+        }
+    ],
+    "resourceName": "koyaapi",
+    "apiName": "koyaapi",
+    "functionArns": [
+        {
+            "lambdaFunction": "DisplayKoya"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-koyaamplifyweb-dev-22133-authRole",
+        "unAuthRoleName": "amplify-koyaamplifyweb-dev-22133-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "DisplayKoya",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

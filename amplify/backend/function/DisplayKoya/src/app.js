@@ -32,6 +32,8 @@ const ddb = new AWS.DynamoDB.DocumentClient({region: 'us-west-2'});
 
 app.get('/koya/:id', function(req, res) {
   console.log('GET Reached');
+  console.log(AWS);
+  console.log(ddb);
   const params = {
     TableName: 'koya',
     Key: {'submission_id': req.params.id}   // 5fdc7459ffdb4b408c49fc33
@@ -39,12 +41,12 @@ app.get('/koya/:id', function(req, res) {
 
   ddb.get(params, function(err, data) {
     if (err) {
-      console.log("Error", err);
+      // console.log("Error", err);
       res.json({fail: 'GET KOYA fail, invalid KOYA id!', url: req.url, id: req.params.id});
     }
     else {
+      // console.log("Success", data.Item);
       res.json({success: 'GET KOYA success!', data: data.Item});
-      console.log("Success", data.Item);
     }
   });
 });

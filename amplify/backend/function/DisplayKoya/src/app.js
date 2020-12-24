@@ -23,10 +23,8 @@ app.use(function(req, res, next) {
 });
 
 // KOYA database
-console.log('pre DB');
 const AWS = require('aws-sdk');
 const ddb = new AWS.DynamoDB.DocumentClient({region: 'us-west-2'});
-console.log('post DB');
 
 /**********************
  * Example get method *
@@ -34,8 +32,6 @@ console.log('post DB');
 
 app.get('/koya/:id', function(req, res) {
   console.log('GET Reached');
-  console.log(AWS);
-  console.log(ddb);
   const params = {
     TableName: 'koya',
     Key: {'submission_id': req.params.id}   // 5fdc7459ffdb4b408c49fc33

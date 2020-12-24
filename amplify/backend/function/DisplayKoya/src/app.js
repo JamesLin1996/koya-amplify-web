@@ -6,9 +6,6 @@ or in the "license" file accompanying this file. This file is distributed on an 
 See the License for the specific language governing permissions and limitations under the License.
 */
 
-
-
-
 var express = require('express')
 var bodyParser = require('body-parser')
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
@@ -25,15 +22,31 @@ app.use(function(req, res, next) {
   next()
 });
 
+// KOYA database
+const AWS = require('aws-sdk');
+const ddb = new AWS.DynamoDB.DocumentClient({region: 'us-west-2'});
 
 /**********************
  * Example get method *
  **********************/
 
 app.get('/koya/:id', function(req, res) {
-  // Add your code here
   console.log('GET Reached');
-  res.json({success: 'get call succeed!', url: req.url, id: req.params.id});
+  const params = {
+    TableName: 'koya',
+    Key: {'submission_id': req.params.id}   // 5fdc7459ffdb4b408c49fc33
+  }
+
+  ddb.get(params, function(err, data) {
+    if (err) {
+      console.log("Error", err);
+      res.json({fail: 'GET KOYA fail, invalid KOYA id!', url: req.url, id: req.params.id});
+    }
+    else {
+      res.json({success: 'GET KOYA success!', data: data.Item});
+      console.log("Success", data.Item);
+    }
+  });
 });
 
 app.get('/koya/:id/*', function(req, res) {

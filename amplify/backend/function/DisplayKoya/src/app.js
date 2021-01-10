@@ -42,25 +42,6 @@ app.get('/koya/:id', function(req, res) {
   console.log('GET Reached');
   const params = {
     TableName: 'koya',
-    Key: {'submission_id': req.params.id}   // 5fdc7459ffdb4b408c49fc33
-  };
-
-  ddb.get(params, function(err, data) {
-    if (err) {
-      console.log("Error", err);
-      res.json({fail: 'GET KOYA fail, invalid KOYA id!', url: req.url, id: req.params.id});
-    }
-    else {
-      console.log("Success", data.Item);
-      res.json({success: 'GET KOYA success!', data: data.Item});
-    }
-  });
-});
-
-app.get('/presign/:id', function(req, res) {
-  console.log('GET Reached');
-  const params = {
-    TableName: 'koya',
     Key: {'submission_id': req.params.id}   // 5fe53eadd0893b23335205f4
   };
 
@@ -70,19 +51,16 @@ app.get('/presign/:id', function(req, res) {
       res.json({fail: 'GET KOYA fail, invalid KOYA id!', url: req.url, id: req.params.id});
     }
     else {
-      console.log("Success", data.Item);
-      // special case when video or photo is uploaded
       if ('image' in data.Item) {
         const s3_key = data.Item.image.split('.amazonaws.com/koya-web/')[1];
-        res.json({success: 'GET KOYA success!', data: getSignedUrl(s3_key)});
+        data.Item['image'] = getSignedUrl(s3_key);
       }
       else if ('video' in data.Item) {
         const s3_key = data.Item.video.split('.amazonaws.com/koya-web/')[1];
-        res.json({success: 'GET KOYA success!', data: getSignedUrl(s3_key)});
+        data.Item['video'] = getSignedUrl(s3_key);
       }
-      else {
-        res.json({success: 'GET KOYA success!'});
-      }
+      console.log("Success", data.Item);
+      res.json({success: 'GET KOYA success!', data: data.Item});
     }
   });
 });

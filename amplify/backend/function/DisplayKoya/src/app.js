@@ -27,8 +27,8 @@ const AWS = require('aws-sdk');
 const ddb = new AWS.DynamoDB.DocumentClient({region: 'us-west-2'});
 const s3 = new AWS.S3({
   endpoint: 's3-us-west-2.amazonaws.com',
-  accessKeyId: 'AKIAQMNCMWCXR2YPI5NO',
-  secretAccessKey: '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',
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   Bucket: 'koya-web',
   signatureVersion: 'v4',
   region: 'us-west-2'

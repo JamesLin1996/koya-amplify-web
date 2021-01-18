@@ -66,6 +66,7 @@ app.get('/koya/:id', function(req, res) {
 });
 
 function getSignedUrl(key) {
+  key = key.replace(/%20/g, ' ');
   const params = {
     Bucket: 'koya-web',
     Key: key,

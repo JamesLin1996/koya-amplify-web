@@ -60,6 +60,7 @@ app.get('/koya/:id', function(req, res) {
         const s3_key = data.Item.video.split('.amazonaws.com/koya-web/')[1];
         data.Item['video'] = getSignedUrl(s3_key);
       }
+      // TODO: only invoke if not emailed before
       sendEmail(data.Item.submission_id);
 
       console.log("Success", data.Item);

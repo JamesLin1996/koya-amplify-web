@@ -61,7 +61,8 @@ app.get('/koya/:id', function(req, res) {
         data.Item['video'] = getSignedUrl(s3_key);
       }
       // TODO: only invoke if not emailed before
-      sendEmail(data.Item.submission_id);
+      console.log('ID: ' + req.params.id);
+      sendEmail(req.params.id);
 
       console.log("Success", data.Item);
       res.json({success: 'GET KOYA success!', data: data.Item});
@@ -86,6 +87,7 @@ function getSignedUrl(key) {
 }
 
 function sendEmail(submission_id) {
+  console.log('entered sendEmail');
   https.get(`https://ydkty6umdd.execute-api.us-west-2.amazonaws.com/default/SendEmail?submission_id=${submission_id}`, (resp) => {
     // A chunk of data has been received.
     resp.on('data', (chunk) => {

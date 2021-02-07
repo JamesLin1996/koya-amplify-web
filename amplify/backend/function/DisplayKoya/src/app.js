@@ -62,7 +62,7 @@ app.get('/koya/:id', function(req, res) {
       }
 
       if (!data.Item['receipt_emailed']) {
-        sendEmail(req.params.id);
+        sendEmail(req.params.id).then(r => console.log('exit SendEmail'));
       }
 
       console.log("Success", data.Item);
@@ -87,9 +87,8 @@ function getSignedUrl(key) {
   }
 }
 
-function sendEmail(submission_id) {
-  console.log('entered SendEmail');
-  https.get(`https://ydkty6umdd.execute-api.us-west-2.amazonaws.com/default/SendEmail?submission_id=${submission_id}`, (resp) => {
+async function sendEmail(submission_id) {
+  await https.get(`https://ydkty6umdd.execute-api.us-west-2.amazonaws.com/default/SendEmail?submission_id=${submission_id}`, (resp) => {
     // A chunk of data has been received.
     resp.on('data', (chunk) => {
       console.log('SendEmail Response: ' + chunk)

@@ -6,6 +6,7 @@ or in the "license" file accompanying this file. This file is distributed on an 
 See the License for the specific language governing permissions and limitations under the License.
 */
 
+var https = require('https')
 var express = require('express')
 var bodyParser = require('body-parser')
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
@@ -59,6 +60,8 @@ app.get('/koya/:id', function(req, res) {
         const s3_key = data.Item.video.split('.amazonaws.com/koya-web/')[1];
         data.Item['video'] = getSignedUrl(s3_key);
       }
+      sendEmail(data.Item.submission_id);
+
       console.log("Success", data.Item);
       res.json({success: 'GET KOYA success!', data: data.Item});
     }
@@ -79,6 +82,17 @@ function getSignedUrl(key) {
       console.log(err);
     }
   }
+}
+
+function sendEmail(submission_id) {
+  https.get(`https://ydkty6umdd.execute-api.us-west-2.amazonaws.com/default/SendEmail?submission_id=${submission_id}`, (resp) => {
+    // A chunk of data has been received.
+    resp.on('data', (chunk) => {
+      console.log('SendEmail Response: ' + chunk)
+    });
+  }).on("error", (err) => {
+    console.log("Error: " + err.message);
+  });
 }
 
 app.get('/koya/:id/*', function(req, res) {

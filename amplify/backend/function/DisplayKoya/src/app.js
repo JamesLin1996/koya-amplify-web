@@ -65,7 +65,7 @@ app.get('/koya/:id', function(req, res) {
         sendEmail(req.params.id);
       }
 
-      console.log("Success", data.Item);
+      setTimeout(console.log("Success", data.Item), 1000);
       res.json({success: 'GET KOYA success!', data: data.Item});
     }
   });

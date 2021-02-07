@@ -89,9 +89,14 @@ function getSignedUrl(key) {
 
 async function sendEmail(submission_id) {
   await https.get(`https://ydkty6umdd.execute-api.us-west-2.amazonaws.com/default/SendEmail?submission_id=${submission_id}`, (resp) => {
+    let data = '';
     // A chunk of data has been received.
     resp.on('data', (chunk) => {
-      console.log('SendEmail Response: ' + chunk)
+      data += chunk;
+    });
+    // The whole response has been received. Print out the result.
+    resp.on('end', () => {
+      console.log('SendEmail Response: ' + data);
     });
   }).on("error", (err) => {
     console.log("Error: " + err.message);

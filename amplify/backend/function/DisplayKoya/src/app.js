@@ -68,7 +68,7 @@ app.get('/koya/:id', function(req, res) {
       console.log("Success", data.Item);
       setTimeout(function(){
         res.json({success: 'GET KOYA success!', data: data.Item});
-      }, 500);
+      }, 250);
     }
   });
 });

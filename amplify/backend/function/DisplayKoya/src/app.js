@@ -39,17 +39,19 @@ const s3 = new AWS.S3({
  * Example get method *
  **********************/
 
+// Local Endpoint: http://localhost:3000/koya/6022ebf203a603293605fd03
 app.get('/koya/:id', function(req, res) {
   console.log('GET Reached');
+  let submission_id = req.params.id;
   const params = {
-    TableName: 'koya',
-    Key: {'submission_id': req.params.id}   // 5fe53eadd0893b23335205f4
+    TableName: ((submission_id.length === 24) ? 'koya' : 'koya-test'),
+    Key: {'submission_id': submission_id}
   };
 
   ddb.get(params, function(err, data) {
     if (err) {
       console.log("Error", err);
-      res.json({fail: 'GET KOYA fail, invalid KOYA id!', url: req.url, id: req.params.id});
+      res.json({fail: 'GET KOYA fail, invalid KOYA id!', url: req.url, id: submission_id});
     }
     else {
       if ('image' in data.Item) {
@@ -62,7 +64,7 @@ app.get('/koya/:id', function(req, res) {
       }
 
       if (!data.Item['receipt_emailed']) {
-        sendEmail(req.params.id);
+        sendEmail(submission_id);
       }
 
       console.log("Success", data.Item);

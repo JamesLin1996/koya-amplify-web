@@ -41,7 +41,6 @@ const s3 = new AWS.S3({
 
 // Local Endpoint: http://localhost:3000/koya/6022ebf203a603293605fd03
 app.get('/koya/:id', function(req, res) {
-  console.log('GET Reached');
   let submission_id = req.params.id;
   const params = {
     TableName: ((submission_id.length === 24) ? 'koya' : 'koya-test'),
@@ -63,6 +62,10 @@ app.get('/koya/:id', function(req, res) {
         data.Item['video'] = getSignedUrl(s3_key);
       }
 
+      if ('logo' in data.Item) {
+        const s3_key = data.Item.logo.split('.amazonaws.com/koya-web/')[1];
+        data.Item['logo'] = getSignedUrl(s3_key);
+      }
       if (!data.Item['receipt_emailed']) {
         sendEmail(submission_id);
       }
